@@ -1,6 +1,7 @@
-#Kim, Ji U7833-5415
+#Kim, Ji
 #using numpy from python package
 
+#the pseudo code for the RRT
 #xrand <- random(space)/ goal(1 out of 10 times)
 #xnear <- nearest- neighbor(xrand, tree)
 #u <- direction ( xnear,  x rand) #unit vector
@@ -69,10 +70,6 @@ for i in range(40):
     sim.simxReadCollision(clientID, collision_handle, sim.simx_opmode_streaming)
     collision_handle_list.append(collision_handle)
 
-# You do not need to modify the code above
-
-
-
 # function to control the movement of the arm, the input are the angles of joint1, joint2, joint3, joint4, joint5, joint6. The unit are in degrees
 def move_arm(armpose):
     armpose_convert = []
@@ -101,35 +98,7 @@ def check_collision():
         return 1
     else:
         return 0
-
-def findH(A):
-    #defining the a, alpha, d, and theta in order
-    a = A[0]
-    alpha = np.radians(A[1])
-    d = A[2]
-    theta = np.radians(A[3])
-
-    result = [[np.cos(theta),-np.sin(theta)*np.cos(alpha),np.sin(theta)*np.sin(alpha),a*np.cos(theta)],
-             [np.sin(theta),np.cos(theta)*np.cos(alpha),-np.cos(theta)*np.sin(alpha),a*np.sin(theta)],
-             [0,np.sin(alpha),np.cos(alpha),d],
-             [0,0,0,1]]
-
-    return result
-
-#for how many rows there are in DH, it calculates the forward kinematic 
-def FK(DH):
-    count = len(DH)
-    A = []
-    for i in range(count):
-        A.append(findH(DH[i]))
-
-    result = A[0] 
     
-    for j in range(1,len(A)):
-        result = np.dot(result,A[j])
-
-    return result
-
 #calculates the distance between two points
 def dist(p1, p2):
     distance = math.sqrt(((p1[0]-p2[0])**2)+((p1[1]-p2[1])**2) + ((p1[2]-p2[2])**2))
@@ -208,9 +177,6 @@ while goal==0:
     if dist(xnew,xgoal) < .05:
         goal = 1 
     
-
-
-# no need to modify the code below
 # close the communication between collision handles
 for i in range(40):
     sim.simxReadCollision(clientID, collision_handle_list[i], sim.simx_opmode_discontinue)
