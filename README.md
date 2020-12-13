@@ -1,2 +1,2 @@
 # RRT
-Implementing the RRT program through the coppelila
+Implementing the RRT program through the coppelia
